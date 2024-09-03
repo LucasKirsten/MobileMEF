@@ -6,6 +6,7 @@ import numpy as np
 #import onnx
 #import tf2onnx
 
+import argparse
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import backend as K
@@ -346,15 +347,33 @@ def convert_prediction(y_pred, uv_pred):
     rgb_pred = np.uint8(tf.clip_by_value(rgb_pred*255., 0., 255.))
     
     return rgb_pred
+    
+def get_argumets():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path_weights', type=str, help='Path to the model weights.',
+                        required=True, default='./h5/anvnet_ep500.h5')
+    parser.add_argument('--path_dataset', type=str, help='Path to the dataset.',
+                        required=True, default='./data')
+    parser.add_argument('--path_save', type=str, help='Path to save results.',
+                        required=True, default='./results')
+    parser.add_argument('--height', type=int, help='Input height of the images.',
+                        required=True, default=2816)
+    parser.add_argument('--width', type=int, help='Input width of the images.',
+                        required=True, default=4096)
+
+    # parse configs
+    return parser.parse_args()
 
 if __name__=='__main__':
 
-    HEIGHT, WIDTH = 2816, 4096
-    folder_images = './data'
-    folder_save = './Ours_500'
+    HEIGHT, WIDTH = args.height, args.width
+    folder_images = args.path_dataset
+    folder_save = args.path_save
+    
+    args = get_argumets()
     
     model = get_model(shape=(HEIGHT,WIDTH), batch_size=1, resize_output=True)
-    model.load_weights('h5/anvnet_ep500.h5')
+    model.load_weights(args.path_weights)
     print(model.inputs)
     print(model.outputs)
     sys.exit(0)
