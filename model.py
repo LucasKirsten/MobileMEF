@@ -352,7 +352,7 @@ def get_argumets():
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_weights', type=str, help='Path to the model weights.',
                         required=True, default='./h5/anvnet_ep500.h5')
-    parser.add_argument('--path_under', type=str, help='Path to the dataset.',
+    parser.add_argument('--path_dataset', type=str, help='Path to the dataset.',
                         required=True, default='./data')
     parser.add_argument('--path_save', type=str, help='Path to save results.',
                         required=True, default='./results')
