@@ -352,7 +352,7 @@ def get_argumets():
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_weights', type=str, help='Path to the model weights.',
                         required=True, default='./h5/anvnet_ep500.h5')
-    parser.add_argument('--path_dataset', type=str, help='Path to the dataset.',
+    parser.add_argument('--path_under', type=str, help='Path to the dataset.',
                         required=True, default='./data')
     parser.add_argument('--path_save', type=str, help='Path to save results.',
                         required=True, default='./results')
@@ -366,17 +366,16 @@ def get_argumets():
 
 if __name__=='__main__':
 
+    args = get_argumets()
+
     HEIGHT, WIDTH = args.height, args.width
     folder_images = args.path_dataset
     folder_save = args.path_save
-    
-    args = get_argumets()
     
     model = get_model(shape=(HEIGHT,WIDTH), batch_size=1, resize_output=True)
     model.load_weights(args.path_weights)
     print(model.inputs)
     print(model.outputs)
-    sys.exit(0)
     
     os.makedirs(folder_save, exist_ok=True)
     path_folders = glob(os.path.join(folder_images, '*'))
