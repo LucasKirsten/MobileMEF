@@ -30,9 +30,9 @@ class Metric():
         return np.mean(self.values)
 
 if __name__=='__main__':
-    path_gt = './SICE/Label' # path to GT images
-    path_preds = r'C:\Users\lucask\Documents\MEF_models\Fast_YUV' # path to predictions
-    pattern_path_inputs = r'C:\Users\lucask\Documents\MEF_models\Ours\data\{folder}\{name}.jpg' # pattern for the input images path
+    path_gt = './Label' # path to GT images
+    path_preds = '/workdir/SAMT-MEF/result_EVs1' # path to predictions
+    pattern_path_inputs = './SICE_EVs1/image_folders/{folder}/{name}.jpg' # pattern for the input images path
     
     paths_preds = glob(os.path.join(path_preds, '*.jpg'))
     
@@ -41,13 +41,13 @@ if __name__=='__main__':
         Metric('tf_ms_ssim', tf_msssim),
         Metric('tf_psnr', tf_psnr),
         Metric('tf_deltaE 2000', tf_deltaE_ciede2000),
-        Metric('tf_mef_ssim', tf_mef_ssim()),
-        Metric('tf_qc', tf_Qc),
         Metric('vif_p', vif_p),
         Metric('fsim', fsim),
         Metric('srsim', srsim),
         Metric('vsi', vsi),
         Metric('mdsi', mdsi),
+        Metric('tf_mef_ssim', tf_mef_ssim()),
+        Metric('tf_qc', tf_Qc),
     ]
     
     np2torch = lambda x:torch.from_numpy(np.transpose(x, [0,3,1,2])/255.)
@@ -73,14 +73,17 @@ if __name__=='__main__':
         
         
         for metric in metrics:
-            if metric.name in ['mef_ssim', 'qc']:
-                img_gt = [input1, input2]
             
-            elif 'tf' in metric.name:
-                metric(img_gt, img_pred)
+            gt_input = img_gt.copy()
+            if ('mef_ssim' in metric.name) or ('qc' in metric.name):
+                gt_input = [input1, input2]
+            
+            if 'tf' in metric.name:
+
+                metric(gt_input, img_pred)
             
             else:
-                metric(np2torch(img_pred), np2torch(img_gt))
+                metric(np2torch(img_pred), np2torch(gt_input))
             
             pbar.set_description(str({m.name:m.result for m in metrics}))
         

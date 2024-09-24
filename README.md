@@ -18,7 +18,7 @@ conda env create -f environment.yml
 
 The ```model.py``` file provides tools for inference and converting the model to TFLITE or ONNX format.
 
-The ```h5/``` folder provides checkpoints for the trained model in different epochs (use the 300 checkpoints to reproduce the paper results).
+The ```h5/``` folder provides checkpoints for the trained models using EVs 1 and -1 (```sice_ev1.h5```), and most under and over exposed frames (```sice_ev_most.h5```).
 
 The ```data/``` folder provides examples of images for the input pipeline.
 

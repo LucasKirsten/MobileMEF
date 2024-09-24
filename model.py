@@ -351,15 +351,15 @@ def convert_prediction(y_pred, uv_pred):
 def get_argumets():
     parser = argparse.ArgumentParser()
     parser.add_argument('--path_weights', type=str, help='Path to the model weights.',
-                        required=True, default='./h5/anvnet_ep500.h5')
+                        default='./h5/anvnet_ep300.h5')
     parser.add_argument('--path_dataset', type=str, help='Path to the dataset.',
-                        required=True, default='./data')
+                        default='./data')
     parser.add_argument('--path_save', type=str, help='Path to save results.',
-                        required=True, default='./results')
+                        default='./results')
     parser.add_argument('--height', type=int, help='Input height of the images.',
-                        required=True, default=2816)
+                        default=2816)
     parser.add_argument('--width', type=int, help='Input width of the images.',
-                        required=True, default=4096)
+                        default=4096)
 
     # parse configs
     return parser.parse_args()
@@ -371,6 +371,7 @@ if __name__=='__main__':
     HEIGHT, WIDTH = args.height, args.width
     folder_images = args.path_dataset
     folder_save = args.path_save
+    
     
     model = get_model(shape=(HEIGHT,WIDTH), batch_size=1, resize_output=True)
     model.load_weights(args.path_weights)
@@ -387,13 +388,16 @@ if __name__=='__main__':
         path_under = os.path.join(folder, '1.jpg')
         path_over  = os.path.join(folder, '2.jpg')
         
-        if not (os.path.exists(path_under) or os.path.exists(path_over)):
+        if not (os.path.exists(path_under) and os.path.exists(path_over)):
             continue
+            
+        img_under = cv2.imread(path_under)
         
         y_under, uv_under = read_input_data(path_under)
         y_over, uv_over   = read_input_data(path_over)
         
         y_pred, uv_pred = model([y_under, uv_under, y_over, uv_over])
         bgr_pred = convert_prediction(y_pred, uv_pred)
+        bgr_pred = cv2.resize(bgr_pred, img_under.shape[:2][::-1])
         
         cv2.imwrite(os.path.join(folder_save, name)+'.jpg', bgr_pred)
