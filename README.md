@@ -1,5 +1,5 @@
 # MobileMEF
-Code related to the paper "[MobileMEF: Fast and Efficient Method for Multi-Exposure Fusion](https://arxiv.org/abs/2408.07932)"
+Code related to the paper "[MobileMEF: Fast and Efficient Method for Multi-Exposure Fusion](https://link.springer.com/article/10.1007/s11554-024-01588-5)"
 
 ## Preview of MobileMEF
 
