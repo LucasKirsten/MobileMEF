@@ -35,13 +35,14 @@ The ```utils/``` folder comprises auxiliary code for metrics evaluation and benc
 If this work has been helpful to you, we would appreciate it if you could cite our paper! 
 
 ```
-@misc{kirsten2024mobilemeffastefficientmethod,
-      title={MobileMEF: Fast and Efficient Method for Multi-Exposure Fusion}, 
-      author={Lucas Nedel Kirsten and Zhicheng Fu and Nikhil Ambha Madhusudhana},
-      year={2024},
-      eprint={2408.07932},
-      archivePrefix={arXiv},
-      primaryClass={eess.IV},
-      url={https://arxiv.org/abs/2408.07932}, 
+@article{kirsten2025mobilemef,
+  title={MobileMEF: fast and efficient method for real-time mobile multi-exposure fusion},
+  author={Kirsten, Lucas Nedel and Fu, Zhicheng and Madhusudhana, Nikhil Ambha},
+  journal={Journal of Real-Time Image Processing},
+  volume={22},
+  number={1},
+  pages={1--15},
+  year={2025},
+  publisher={Springer}
 }
 ```
